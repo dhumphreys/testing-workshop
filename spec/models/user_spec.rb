@@ -2,6 +2,30 @@ require 'rails_helper'
 
 RSpec.describe User, type: :model do
 
+  it { should have_many(:blogs) }
+
+  it { should validate_presence_of(:username) }
+  it { should validate_uniqueness_of(:username) }
+  it { should validate_presence_of(:password) }
+  it { should validate_confirmation_of(:password) }
+  it { should validate_length_of(:password).is_at_least(8) }
+  it { should validate_presence_of(:role) }
+  it { should validate_inclusion_of(:role).in_array(User::ROLES) }
+  it { should validate_presence_of(:first_name) }
+  it { should validate_presence_of(:last_name) }
+
+  context 'when not admin' do
+    before { allow(subject).to receive(:admin?).and_return(false) }
+    it { should validate_presence_of(:first_name) }
+    it { should validate_presence_of(:last_name) }
+  end
+
+  context 'when admin' do
+    before { allow(subject).to receive(:admin?).and_return(true) }
+    it { should_not validate_presence_of(:first_name) }
+    it { should_not validate_presence_of(:last_name) }
+  end
+
   describe '#admin?' do
     context 'with admin role' do
       subject { User.new(role: 'admin') }
@@ -43,7 +67,7 @@ RSpec.describe User, type: :model do
 
   describe '.user_limit' do
     it { expect(User.user_limit).to eq(100000) }
-    it { expect(User.user_limit).to be > 0 }
+    it { expect(User.user_limit).to be_between(0, 200000).exclusive }
     it { expect(User.user_limit).to be < 200000 }
   end
 end
