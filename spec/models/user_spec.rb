@@ -26,41 +26,53 @@ RSpec.describe User, type: :model do
     it { should_not validate_presence_of(:last_name) }
   end
 
+  describe '.admins' do
+    let!(:admins) { create_list(:user, 2, :admin) }
+    let!(:users) { create_list(:user, 1) }
+    it { expect(User.admins).to eq(admins) }
+  end
+
+  describe '.users' do
+    let!(:admins) { create_list(:user, 1, :admin) }
+    let!(:users) { create_list(:user, 2) }
+    it { expect(User.users).to eq(users) }
+  end
+
   describe '#admin?' do
     context 'with admin role' do
-      subject { User.new(role: 'admin') }
+      subject { build(:user, :admin) }
       it { expect(subject.admin?).to be(true) }
     end
 
     context 'with non-admin role' do
-      subject { User.new(role: 'user') }
+      subject { build(:user) }
       it { expect(subject.admin?).to be(false) }
     end
 
     context 'with nil role' do
-      subject { User.new }
+      subject { build(:user, :no_role) }
       it { expect(subject.admin?).to be(false) }
     end
   end
 
   describe '#full_name' do
     context 'with both names' do
-      subject { User.new(first_name: 'John', last_name: 'Doe') }
+      subject { build(:user, :john_doe) }
       it { expect(subject.full_name).to eq('John Doe') }
     end
 
     context 'with neither name' do
-      subject { User.new(first_name: nil, last_name: nil) }
+      subject { build(:user, :no_name) }
       it { expect(subject.full_name).to eq('') }
     end
 
     context 'with only first_name' do
-      subject { User.new(first_name: 'John', last_name: nil) }
+      subject { build(:user, :john_doe, last_name: nil) }
       it { expect(subject.full_name).to eq('John') }
     end
 
     context 'with only last_name' do
-      subject { User.new(first_name: nil, last_name: 'Doe') }
+      subject { build(:user, :john_doe, first_name: nil) }
       it { expect(subject.full_name).to eq('Doe') }
     end
   end

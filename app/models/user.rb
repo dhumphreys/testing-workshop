@@ -9,6 +9,9 @@ class User < ActiveRecord::Base
   validates :first_name, :last_name, presence: true, unless: :admin?
   validates :role, inclusion: { in: ROLES }
 
+  scope :admins, -> { where(role: 'admin') }
+  scope :users, -> { where(role: 'user') }
+
   def self.user_limit
     100000
   end
