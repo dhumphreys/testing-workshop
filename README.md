@@ -15,9 +15,9 @@
 
 ## Schedule
 
-* Week 1: Basic unit tests with RSpec ([Recording](https://slack-files.com/T024UCSAU-F084XCFPY-d976e5c182))
-* Week 2: Validations and associations with Shoulda
-* Week 3: Avoiding datbase hits with Factory Girl
+* Week 1: Basic unit tests with RSpec ([Audio](https://slack-files.com/T024UCSAU-F084XCFPY-d976e5c182))
+* Week 2: Validations and associations with Shoulda ([Video](https://slack-files.com/T024UCSAU-F08QG66GL-dad3923f06))
+* Week 3: Avoiding datbase hits with Factory Girl ([Video](https://slack-files.com/T024UCSAU-F08QG71GU-b4c44fc4e9))
 * Week 4: Stubbing with RSpec mocks
 * Week 5: TBD
 
